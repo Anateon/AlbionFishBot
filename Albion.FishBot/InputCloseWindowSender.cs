@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading;
 
-namespace AutoFishWPF
+namespace Albion.FishBot
 {
     public class InputCloseWindowSender
     {
@@ -36,42 +34,40 @@ namespace AutoFishWPF
 
         public static void ClickKey(ushort scanCode)
         {
-
-            SendMessage(handle, 0x6, 0x00000001, 0);
-            PostMessage(handle, (int)WMessages.WM_KEYDOWN, scanCode, 0x00000001 | (scanCode << 16));
-            SendMessage(handle, 0x6, 0x00000001, 0);
-            PostMessage(handle, (int)WMessages.WM_KEYUP, scanCode, 0x00000001 | (scanCode << 16));
+            SendMessage(handle, (int)WMessages.WM_KEYDOWN, scanCode, 0x00000001 | (scanCode << 16));
+            SendMessage(handle, (int)WMessages.WM_KEYUP, scanCode, 0x00000001 | (scanCode << 16));
+            //PostMessage(handle, (int)WMessages.WM_KEYUP, scanCode, 0x00000001 | (scanCode << 16));
         }
 
         public static void ClickKeyDown(ushort scanCode)
         {
-            SendMessage(handle, 0x6, 0x00000001, 0);
-            PostMessage(handle, (int)WMessages.WM_KEYDOWN, scanCode, 0x00000001 | (scanCode << 16));
+            SendMessage(handle, (int)WMessages.WM_KEYDOWN, scanCode, 0x00000001 | (scanCode << 16));
+            //PostMessage(handle, (int)WMessages.WM_KEYDOWN, scanCode, 0x00000001 | (scanCode << 16));
         }
 
         public static void ClickKeyUp(ushort scanCode)
         {
-            SendMessage(handle, 0x6, 0x00000001, 0);
-            PostMessage(handle, (int)WMessages.WM_KEYUP, scanCode, 0x00000001 | (scanCode << 16));
+            SendMessage(handle, (int)WMessages.WM_KEYUP, scanCode, 0x00000001 | (scanCode << 16));
+            //PostMessage(handle, (int)WMessages.WM_KEYUP, scanCode, 0x00000001 | (scanCode << 16));
         }
 
         public static void ClickMouse(int x, int y)
         {
-            SendMessage(handle, 0x6, 0x00000001, MAKELPARAM(x, y));
-            PostMessage(handle, (int)WMessages.WM_LBUTTONDOWN, 0x00000001, MAKELPARAM(x, y));
-            SendMessage(handle, 0x6, 0x00000001, MAKELPARAM(x, y));
-            PostMessage(handle, (int)WMessages.WM_LBUTTONUP, 0x00000001, MAKELPARAM(x, y));
+
+            SendMessage(handle, (int)WMessages.WM_LBUTTONDBLCLK, 0x00000001, MAKELPARAM(x, y));
+            //SendMessage(handle, (int)WMessages.WM_LBUTTONDOWN, 0x00000001, MAKELPARAM(x, y));
+            //PostMessage(handle, (int)WMessages.WM_LBUTTONUP, 0x00000001, MAKELPARAM(x, y));
         }
 
         public static void ClickMouseDown(int x, int y)
         {
-            SendMessage(handle, 0x6, 0x00000001, MAKELPARAM(x, y));
-            PostMessage(handle, (int)WMessages.WM_LBUTTONDOWN, 0x00000001, MAKELPARAM(x, y));
+            SendMessage(handle, (int)WMessages.WM_LBUTTONDOWN, 0x00000001, MAKELPARAM(x, y));
+            //PostMessage(handle, (int)WMessages.WM_LBUTTONDOWN, 0x00000001, MAKELPARAM(x, y));
         }
         public static void ClickMouseUp(int x, int y)
         {
-            SendMessage(handle, 0x6, 0x00000001, MAKELPARAM(x, y));
-            PostMessage(handle, (int)WMessages.WM_LBUTTONUP, 0x00000001, MAKELPARAM(x, y));
+            SendMessage(handle, (int)WMessages.WM_LBUTTONUP, 0x00000001, MAKELPARAM(x, y));
+            //PostMessage(handle, (int)WMessages.WM_LBUTTONUP, 0x00000001, MAKELPARAM(x, y));
         }
     }
 }

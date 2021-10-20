@@ -22,7 +22,7 @@ namespace Albion.FishBot
             {
                 if (Program.Poplovok != null && Program.Poplovok.ID == value.Id)
                 {
-                    Program.Poplovok.ID = 4;
+                    Program.Poplovok.status = 4;
                     Console.WriteLine("ИСЧЕЗ!");
                 }
                 else

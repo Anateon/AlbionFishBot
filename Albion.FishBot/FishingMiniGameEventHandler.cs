@@ -25,7 +25,6 @@ namespace Albion.FishBot
                     Program.Poplovok.ID = value.Id;
                     Program.Poplovok.ownerID = value.ownerID;
                     Program.mutexObj.ReleaseMutex();
-                    Console.WriteLine($"FROM HANDLER: {value.Status}");
                     if (value.Status == 2)
                     {
                         Program.ClickThread = new Thread(new ThreadStart(Program.TriggerClicker));
