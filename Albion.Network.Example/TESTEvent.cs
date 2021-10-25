@@ -12,7 +12,7 @@ namespace Albion.Network.Example
             string writePath = @"C:\hta2.txt";
             string json = JsonConvert.SerializeObject(parameters);
 
-            Console.WriteLine(json);
+            //Console.WriteLine(json);
             using (StreamWriter sw = new StreamWriter(writePath, true, System.Text.Encoding.Default))
             {
                 sw.WriteLine(json);

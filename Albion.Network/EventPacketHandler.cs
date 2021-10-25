@@ -20,15 +20,18 @@ namespace Albion.Network
 
         protected internal override Task OnHandleAsync(EventPacket packet)
         {
-
+            List<int> vs = new List<int>() { 3, 93, 148, 18, 10, 20, 255, 81, 94 };
 #if DEBUG
             if (eventCode == -666)
             {
-                if (packet.EventCode == 332)
+                if (packet.EventCode == 333)//packet.EventCode == 332)
                 {
-                    Console.Write($"\n{packet.EventCode}\t{(EnumEvents) packet.EventCode}");
-                    string json = JsonConvert.SerializeObject(packet.Parameters);
-                    Console.Write(json);
+                    if (!vs.Contains(packet.EventCode))
+                    {
+                        Console.Write($"\n{packet.EventCode}\t{(EnumEvents)packet.EventCode} ");
+                        string json = JsonConvert.SerializeObject(packet.Parameters);
+                        Console.Write(json);
+                    }
                     return NextAsync(packet);
                 }
                 //Console.WriteLine($"{packet.EventCode}\t{(EnumEvents) packet.EventCode}");

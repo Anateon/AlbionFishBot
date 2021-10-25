@@ -44,7 +44,8 @@ namespace Albion.FishBot
         public static Point TriggerPoint = new Point(1025, 553);
         public static Thread ClickThread;
         public static int randomIndex = 0;
-
+        public static double Size = 1;
+        public static bool Trash = false;
         private static void Main(string[] args)
         {
             MyPos.X = 0;
@@ -54,6 +55,7 @@ namespace Albion.FishBot
             builder.AddEventHandler(new FishingMiniGameEventHandler());
             builder.AddEventHandler(new LeaveEventHandler());
             builder.AddRequestHandler(new MoveRequestHandler());
+            builder.AddEventHandler(new FishTypeEventHandler());
             receiver = builder.Build();
             CaptureDeviceList devices = CaptureDeviceList.Instance;
             foreach (var device in devices)
@@ -71,6 +73,8 @@ namespace Albion.FishBot
             HotKeyManager.RegisterHotKey(Keys.D2, KeyModifiers.Alt);
             HotKeyManager.RegisterHotKey(Keys.D1, KeyModifiers.Alt);
             HotKeyManager.RegisterHotKey(Keys.Oemtilde, KeyModifiers.Alt);
+            HotKeyManager.RegisterHotKey(Keys.NumPad9, KeyModifiers.Alt);
+            HotKeyManager.RegisterHotKey(Keys.NumPad6, KeyModifiers.Alt);
             HotKeyManager.HotKeyPressed += new EventHandler<HotKeyEventArgs>(HotKeyManager_HotKeyPressed);
             
         }
@@ -114,7 +118,7 @@ namespace Albion.FishBot
                         fishingStatus = true;
                         Program.ClickThread = new Thread(new ThreadStart(Program.TriggerClicker));
                         Program.ClickThread.Start();
-                        Console.WriteLine($"fishingStart mousePos: {ListMousPoints}");
+                        Console.WriteLine($"fishingStart");
                     }
                     break;
                 case Keys.D1:
@@ -124,6 +128,24 @@ namespace Albion.FishBot
                 case Keys.Oemtilde:
                     ListMousPoints.Clear();
                     Console.WriteLine("ClearPoint");
+                    break;
+                case Keys.NumPad9:
+                    if (Size < 0.9)
+                    {
+                        Size += 0.2;
+                        Console.WriteLine($"Size+: {Size}");
+                    }
+                    else
+                        Console.WriteLine("Cant");
+                    break;
+                case Keys.NumPad6:
+                    if (Size > 0.1)
+                    {
+                        Size -= 0.2;
+                        Console.WriteLine($"Size-: {Size}");
+                    }
+                    else
+                        Console.WriteLine("Cant");
                     break;
             }
         }
@@ -142,6 +164,7 @@ namespace Albion.FishBot
             bool mouseIsPerss = false;
             InputCloseWindowSender.handle = handle;
 
+            /*
             if (Poplovok.status == 4)
             {
                 randomIndex = (++randomIndex)%convertMousePoints.Count;
@@ -158,6 +181,7 @@ namespace Albion.FishBot
                 Thread.Sleep(2050);
                 InputSender.ClickMouseUp();
             }
+            */
             while (fishingStatus && (Poplovok.status == 2 || Poplovok.status == 3 || Poplovok.status == 4 || Poplovok.status == 5))
             {
                 switch (Poplovok.status)
@@ -172,16 +196,23 @@ namespace Albion.FishBot
                         Thread.Sleep(200);
                         break;
                     case 3: // тянуть
+                        if (Trash)
+                        {
+                            Console.Write("Камень!");
+                            Trash = false;
+                            Poplovok.status = 5;
+                            break;
+                        }
                         SetForegroundWindow(handle);
                         screenGfx.CopyFromScreen(convertPoplovokZone.X, convertPoplovokZone.Y, 0, 0, screen.Size);
                         byte B = screen.GetPixel(0, 0).B;
-                        Console.WriteLine($"{Poplovok.status}/{screen.GetPixel(0, 0).R};{screen.GetPixel(0, 0).G};{screen.GetPixel(0, 0).B}");
+                        //Console.WriteLine($"{Poplovok.status}/{screen.GetPixel(0, 0).R};{screen.GetPixel(0, 0).G};{screen.GetPixel(0, 0).B}");
                         InputSender.SetCursorPosition(convertMousePoints[randomIndex].X, convertMousePoints[randomIndex].Y);
                         if (B < 75) // надо жать
                         {
                             if (!mouseIsPerss)
                             {
-                                Console.WriteLine("ТЯНУ");
+                                Console.Write("[]");
                                 InputCloseWindowSender.ClickMouseDown(convertMousePoints[randomIndex].X, convertMousePoints[randomIndex].Y);
                                 mouseIsPerss = true;
                             }
@@ -190,29 +221,30 @@ namespace Albion.FishBot
                         {
                             if (mouseIsPerss)
                             {
-                                Console.WriteLine("НЕ ТЯНУ ЧУТЬ ЧУТЬ");
+                                Console.Write("_");
                                 InputCloseWindowSender.ClickMouseUp(convertMousePoints[randomIndex].X, convertMousePoints[randomIndex].Y);
-                                Thread.Sleep(15);
+                                Thread.Sleep(5);
                                 mouseIsPerss = false;
                                 //InputCloseWindowSender.ClickMouseDown(convertMousePoints[randomIndex].X, convertMousePoints[randomIndex].Y);
                             }
                         }
-                        Thread.Sleep(5);
+                        Thread.Sleep(10);
                         break;
                     default: // улов
+                        Console.Write('\n');
                         randomIndex = (++randomIndex) % convertMousePoints.Count;
                         InputCloseWindowSender.ClickMouseUp(convertMousePoints[randomIndex].X, convertMousePoints[randomIndex].Y);
                         SetForegroundWindow(handle);
                         InputSender.SetCursorPosition(convertMousePoints[randomIndex].X, convertMousePoints[randomIndex].Y);
                         Thread.Sleep(50);
-                        Console.WriteLine($"{Poplovok.status}");
+                        //Console.WriteLine($"{Poplovok.status}");
                         mouseIsPerss = false;
                         InputSender.ClickMouseUp();
                         Thread.Sleep(200);
                         InputSender.ClickKey(0x1f);
                         Thread.Sleep(200);
                         InputSender.ClickMouseDown();
-                        Thread.Sleep(2050);
+                        Thread.Sleep((int)(Size *2000+20));
                         InputSender.ClickMouseUp();
                         return;
                 }

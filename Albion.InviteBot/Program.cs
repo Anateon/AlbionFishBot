@@ -40,6 +40,9 @@ namespace Albion.InviteBot
         public static bool inviteBotIsWork = false;
         public static Queue<string> chelList = new Queue<string>();
         public static HashSet<string> invitedList = new HashSet<string>();
+
+        public static int allPlayers = 0;
+        public static int invitedPlayers = 0;
         private static void Main(string[] args)
         {
             ReceiverBuilder builder = ReceiverBuilder.Create();
@@ -122,7 +125,7 @@ namespace Albion.InviteBot
                     convertNickStrPoint = CusoreConvertFromGamePosToWin(NickNameStringPoint.X, NickNameStringPoint.Y);
                     Console.ForegroundColor = ConsoleColor.Green;
                     SetForegroundWindow(handle);
-                    Console.WriteLine($"IVITE:\t{name}");
+                    Console.WriteLine($"{invitedPlayers++}\tIVITE:\t{name}");
                     var scanCodes = GetScancodes(name);
                     Console.ResetColor();
                     Thread.Sleep(200);
