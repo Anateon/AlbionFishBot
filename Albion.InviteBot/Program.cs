@@ -128,34 +128,34 @@ namespace Albion.InviteBot
                     Console.WriteLine($"{invitedPlayers++}\tIVITE:\t{name}");
                     var scanCodes = GetScancodes(name);
                     Console.ResetColor();
-                    Thread.Sleep(200);
+                    Thread.Sleep(140);
                     InputSender.ClickKey(0x22); // G
-                    Thread.Sleep(200);
+                    Thread.Sleep(140);
                     InputSender.SetCursorPosition(convertPlusButtonZone.X, convertPlusButtonZone.Y); // MOVE TO +
-                    Thread.Sleep(200);
+                    Thread.Sleep(140);
                     InputSender.ClickMouse(); // CLICK TO +
                     InputSender.SetCursorPosition(convertPlusButtonZone.X+1, convertPlusButtonZone.Y+1); // MOVE TO +
-                    Thread.Sleep(200);
+                    Thread.Sleep(140);
                     InputSender.ClickMouse(); // CLICK TO +
                     InputCloseWindowSender.ClickMouse(convertPlusButtonZone.X, convertPlusButtonZone.Y);
-                    Thread.Sleep(200);
+                    Thread.Sleep(140);
                     InputSender.SetCursorPosition(convertNickStrPoint.X, convertNickStrPoint.Y); // MOVE TO STR
-                    Thread.Sleep(200);
+                    Thread.Sleep(140);
                     InputCloseWindowSender.ClickMouse(NickNameStringPoint.X, NickNameStringPoint.Y);
-                    Thread.Sleep(200);
+                    Thread.Sleep(140);
                     foreach (var code in scanCodes)
                     {
                         InputSender.ClickKey(code);
-                        Thread.Sleep(50);
+                        Thread.Sleep(40);
                     }
                     InputSender.ClickKey(0x1C); // CLICK ENTER
-                    Thread.Sleep(150);
+                    Thread.Sleep(140);
                     InputSender.ClickKey(0x01); // CLICK ESC
-                    Thread.Sleep(150);
+                    Thread.Sleep(120);
                     InputSender.ClickKey(0x01); // CLICK ESC
-                    Thread.Sleep(150);
+                    Thread.Sleep(120);
                     InputSender.ClickKey(0x01); // CLICK ESC
-                    Thread.Sleep(150);
+                    Thread.Sleep(120);
                     InputSender.ClickKey(0x01); // CLICK ESC
                     //InputCloseWindowSender.ClickMouse(convertPlusButtonZone.X, convertPlusButtonZone.Y);
                 }

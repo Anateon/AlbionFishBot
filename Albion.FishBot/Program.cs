@@ -244,7 +244,7 @@ namespace Albion.FishBot
                         InputSender.ClickKey(0x1f);
                         Thread.Sleep(200);
                         InputSender.ClickMouseDown();
-                        Thread.Sleep((int)(Size *2000+20));
+                        Thread.Sleep((int)(Size *1000+20));
                         InputSender.ClickMouseUp();
                         return;
                 }
