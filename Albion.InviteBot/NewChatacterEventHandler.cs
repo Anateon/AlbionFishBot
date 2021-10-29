@@ -26,7 +26,7 @@ namespace Albion.InviteBot
                     //Program.mutexObj.WaitOne();
                     if (!Program.invitedList.Contains(value.Name) && !Program.chelList.Contains(value.Name))
                     {
-                        Console.WriteLine($"add:\t{value.Name}");
+                        Console.WriteLine($"ADD {Program.allPlayers++}\t{value.Name}");
                         Program.chelList.Enqueue(value.Name);
                     }
                     //Program.mutexObj.ReleaseMutex();

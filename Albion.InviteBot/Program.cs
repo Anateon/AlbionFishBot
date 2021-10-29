@@ -40,6 +40,9 @@ namespace Albion.InviteBot
         public static bool inviteBotIsWork = false;
         public static Queue<string> chelList = new Queue<string>();
         public static HashSet<string> invitedList = new HashSet<string>();
+
+        public static int allPlayers = 0;
+        public static int invitedPlayers = 0;
         private static void Main(string[] args)
         {
             ReceiverBuilder builder = ReceiverBuilder.Create();
@@ -67,7 +70,14 @@ namespace Albion.InviteBot
             UdpPacket packet = Packet.ParsePacket(e.Packet.LinkLayerType, e.Packet.Data).Extract<UdpPacket>();
             if (packet != null && (packet.SourcePort == 5056 || packet.DestinationPort == 5056))
             {
-                receiver.ReceivePacket(packet.PayloadData);
+                try
+                {
+                    receiver.ReceivePacket(packet.PayloadData);
+
+                }
+                catch (Exception exception)
+                {
+                }
             }
         }
         static void HotKeyManager_HotKeyPressed(object sender, HotKeyEventArgs e)
@@ -122,37 +132,37 @@ namespace Albion.InviteBot
                     convertNickStrPoint = CusoreConvertFromGamePosToWin(NickNameStringPoint.X, NickNameStringPoint.Y);
                     Console.ForegroundColor = ConsoleColor.Green;
                     SetForegroundWindow(handle);
-                    Console.WriteLine($"IVITE:\t{name}");
+                    Console.WriteLine($"INV {invitedPlayers++}\t{name}");
                     var scanCodes = GetScancodes(name);
                     Console.ResetColor();
-                    Thread.Sleep(200);
+                    Thread.Sleep(150);
                     InputSender.ClickKey(0x22); // G
-                    Thread.Sleep(200);
+                    Thread.Sleep(150);
                     InputSender.SetCursorPosition(convertPlusButtonZone.X, convertPlusButtonZone.Y); // MOVE TO +
-                    Thread.Sleep(200);
+                    Thread.Sleep(150);
                     InputSender.ClickMouse(); // CLICK TO +
                     InputSender.SetCursorPosition(convertPlusButtonZone.X+1, convertPlusButtonZone.Y+1); // MOVE TO +
-                    Thread.Sleep(200);
+                    Thread.Sleep(150);
                     InputSender.ClickMouse(); // CLICK TO +
                     InputCloseWindowSender.ClickMouse(convertPlusButtonZone.X, convertPlusButtonZone.Y);
-                    Thread.Sleep(200);
+                    Thread.Sleep(150);
                     InputSender.SetCursorPosition(convertNickStrPoint.X, convertNickStrPoint.Y); // MOVE TO STR
-                    Thread.Sleep(200);
+                    Thread.Sleep(150);
                     InputCloseWindowSender.ClickMouse(NickNameStringPoint.X, NickNameStringPoint.Y);
-                    Thread.Sleep(200);
+                    Thread.Sleep(150);
                     foreach (var code in scanCodes)
                     {
                         InputSender.ClickKey(code);
-                        Thread.Sleep(50);
+                        Thread.Sleep(40);
                     }
                     InputSender.ClickKey(0x1C); // CLICK ENTER
                     Thread.Sleep(150);
                     InputSender.ClickKey(0x01); // CLICK ESC
-                    Thread.Sleep(150);
+                    Thread.Sleep(100);
                     InputSender.ClickKey(0x01); // CLICK ESC
-                    Thread.Sleep(150);
+                    Thread.Sleep(100);
                     InputSender.ClickKey(0x01); // CLICK ESC
-                    Thread.Sleep(150);
+                    Thread.Sleep(100);
                     InputSender.ClickKey(0x01); // CLICK ESC
                     //InputCloseWindowSender.ClickMouse(convertPlusButtonZone.X, convertPlusButtonZone.Y);
                 }
